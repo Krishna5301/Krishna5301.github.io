@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krishna Chaitanya Makthala — AI Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #faf8f5;
+      --bg2:       #f2eee9;
+      --bg3:       #e6dfd5;
+      --border:    #d6cebf;
+      --blue:      #1a56a8;
+      --purple:    #0f766e;
+      --green:     #15803d;
+      --text:      #1c1917;
+      --muted:     #57534e;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+      background: rgba(250,248,245,0.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--mono); font-size: 0.95rem; color: var(--blue); font-weight: 500; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      font-size: 0.82rem; padding: 0.4rem 1.1rem;
+      border: 1px solid var(--blue); border-radius: 6px;
+      color: var(--blue) !important; transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--blue); color: #fff !important; }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 5%; scroll-margin-top: 64px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .section-label { font-family: var(--mono); font-size: 0.78rem; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; line-height: 1.2; color: var(--text); }
+    .section-sub { font-size: 0.92rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.7; }
+
+    /* ── HERO ── */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 64px; background: var(--bg); }
+    .hero-content { max-width: 1000px; }
+    .hero-name {
+      font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; line-height: 1.1; margin-bottom: 0.8rem;
+      color: var(--text);
+    }
+    .hero-title { font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: var(--muted); font-weight: 400; margin-bottom: 1.6rem; }
+    .hero-title span { color: var(--blue); font-weight: 600; }
+    .hero-bio { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.8; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.6rem; background: var(--blue); color: #fff;
+      border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.6rem; border: 1px solid var(--border);
+      border-radius: 8px; font-weight: 500; font-size: 0.9rem; color: var(--text); background: #fff; transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--blue); transform: translateY(-1px); }
+    .hero-chips { margin-top: 3rem; display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .chip { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--muted); }
+    .chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.8; }
+    .about-text p span { color: var(--text); font-weight: 500; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .stat-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 1.4rem; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--blue); font-family: var(--mono); line-height: 1; margin-bottom: 0.4rem; }
+    .stat-label { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: 1fr; gap: 1.2rem; }
+    .project-card {
+      background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--blue);
+      border-radius: 14px; padding: 1.5rem 1.75rem 1.5rem 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: grid; grid-template-columns: 210px 1fr; gap: 0 2rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06); align-items: start;
+    }
+    .project-left { display: flex; flex-direction: column; gap: 0.55rem; }
+    .project-right { display: flex; flex-direction: column; gap: 0.85rem; }
+    .project-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(26,86,168,0.12); }
+    .project-link {
+      display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+      color: var(--blue); border: 1px solid var(--blue);
+      border-radius: 5px; padding: 0.22rem 0.65rem; transition: background 0.2s, color 0.2s;
+      text-decoration: none; align-self: flex-start;
+    }
+    .project-link:hover { background: var(--blue); color: #fff; }
+    .project-badge { font-size: 0.72rem; font-family: var(--mono); color: var(--muted); background: var(--bg3); border-radius: 5px; padding: 0.25rem 0.7rem; cursor: default; border: 1px solid var(--border); align-self: flex-start; }
+    .project-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .project-sub { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+    .project-divider { width: 28px; height: 2px; background: var(--border); border-radius: 2px; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+    .project-metric { font-family: var(--mono); font-size: 0.78rem; color: var(--green); font-weight: 500; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-size: 0.72rem; font-family: var(--mono); color: var(--purple); background: rgba(109,40,217,0.08); border-radius: 4px; padding: 0.22rem 0.6rem; border: 1px solid rgba(109,40,217,0.15); }
+
+    /* ── ARCHITECTURE ── */
+    .arch-section { margin-top: 3rem; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .arch-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg2); display: flex; align-items: center; gap: 0.75rem; }
+    .arch-title { font-family: var(--mono); font-size: 0.8rem; color: var(--blue); letter-spacing: 0.04em; font-weight: 500; }
+    .arch-badge { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); background: var(--bg3); border-radius: 4px; padding: 0.15rem 0.55rem; border: 1px solid var(--border); }
+    .arch-body { padding: 2rem; background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 320px; overflow-x: auto; }
+    .arch-body .mermaid { width: 100%; }
+    .arch-body .mermaid svg { width: 100% !important; height: auto !important; min-height: 260px; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg2); }
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item { display: grid; grid-template-columns: 120px 1fr; gap: 0 2rem; }
+    .timeline-date { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); padding-top: 0.2rem; text-align: right; line-height: 1.5; }
+    .timeline-body { border-left: 1px solid var(--border); padding: 0 0 2.5rem 2rem; position: relative; }
+    .timeline-body::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); border: 2px solid var(--bg2); position: absolute; left: -5px; top: 4px; }
+    .timeline-item:last-child .timeline-body { border-left-color: transparent; padding-bottom: 0; }
+    .timeline-role { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; color: var(--text); }
+    .timeline-company { font-size: 0.88rem; color: var(--blue); margin-bottom: 1rem; }
+    .timeline-points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .timeline-points li { font-size: 0.88rem; color: var(--muted); padding-left: 1.2rem; position: relative; line-height: 1.7; }
+    .timeline-points li::before { content: '▸'; position: absolute; left: 0; color: var(--blue); font-size: 0.68rem; top: 0.18rem; }
+
+    /* ── CAPABILITIES ── */
+    .capability-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .capability-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem;
+      transition: border-color 0.25s, box-shadow 0.25s; display: flex; flex-direction: column; gap: 0.75rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .capability-card:hover { border-color: var(--blue); box-shadow: 0 4px 16px rgba(37,99,235,0.08); }
+    .cap-icon { margin-bottom: 0.1rem; }
+    .cap-headline { font-size: 1rem; font-weight: 600; color: var(--text); }
+    .cap-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.75; flex: 1; }
+    .cap-tools { font-family: var(--mono); font-size: 0.71rem; color: var(--blue); padding-top: 0.75rem; border-top: 1px solid var(--border); line-height: 1.9; }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg2); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .edu-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; transition: border-color 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .edu-card:hover { border-color: var(--purple); }
+    .edu-degree { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--text); }
+    .edu-school { font-size: 0.88rem; color: var(--blue); margin-bottom: 0.25rem; }
+    .edu-dates { font-size: 0.78rem; font-family: var(--mono); color: var(--muted); margin-bottom: 1rem; }
+    .edu-detail { font-size: 0.84rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── CONTACT ── */
+    .contact-inner { text-align: center; max-width: 720px; margin: 0 auto; }
+    .contact-headline { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; margin-bottom: 1rem; color: var(--text); }
+    .contact-sub { color: var(--muted); margin-bottom: 2.5rem; line-height: 1.7; font-size: 0.95rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.3rem;
+      border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; color: var(--muted);
+      background: #fff; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .contact-link:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37,99,235,0.10); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 2rem 5%; text-align: center; font-size: 0.78rem; color: var(--muted); font-family: var(--mono); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .projects-grid, .capability-grid, .edu-grid { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; border-left-width: 3px; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .timeline-date { text-align: left; margin-bottom: 0.4rem; }
+      .nav-links a:not(.nav-cta) { display: none; }
+    }
+    @media (max-width: 500px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">krishna.dev</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#contact">Contact</a>
+    <a href="mailto:krishnachaitanyagoudmakthala@gmail.com" class="nav-cta">Let's Talk</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container hero-content">
+    <h1 class="hero-name">Krishna Chaitanya<br>Makthala</h1>
+    <p class="hero-title"><span>AI Engineer</span> — Multi-Agent Systems &amp; Production LLMs</p>
+    <p class="hero-bio">
+      An AI Engineer focused on systems that move from architecture to production — multi-agent platforms,
+      RAG pipelines, and ML forecasting. Based in Bristol, UK, with a background in enterprise software delivery.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>
+        View Projects
+      </a>
+      <a href="CV_KrishnaChaitanyaMakthala.pdf" download class="btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download CV
+      </a>
+      <a href="https://github.com/Krishna5301" target="_blank" class="btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.17c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.72.08-.72 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.78 1.3 3.46.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.138 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://linkedin.com/in/krishnachaitanyagoudmakthala" target="_blank" class="btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="hero-chips">
+      <span class="chip"><span class="chip-dot"></span>Available now</span>
+      <span class="chip">📍 Bristol, UK</span>
+      <span class="chip">🎓 MSc Data Science, UWE Bristol</span>
+      <span class="chip">🇬🇧 Right to work until Dec 2027</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">Background</p>
+    <h2 class="section-title">Professional Background</h2>
+    <p class="section-sub">I am an AI Engineer with a foundation in enterprise software delivery and a focus on production-grade systems.</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          The career path began with two years of enterprise software delivery at <span>Accenture</span> —
+          production engineering across the full lifecycle, working within SLA frameworks and cross-functional teams.
+          That grounding in how software ships in real organisations shapes the approach to AI engineering:
+          models are one component of a larger system, not the whole product.
+        </p>
+        <p>
+          The <span>Avsar</span> contract was a six-month engagement taking a multi-agent AI platform from
+          initial architecture to live production on AWS. What it demonstrated at a higher level was how
+          software engineering discipline — testing, deployment, monitoring — applies directly to AI systems
+          in the same way it applies to any production service. The technical detail is in the Projects section.
+        </p>
+        <p>
+          The MSc capstone at <span>UWE Bristol</span> took a different angle — a comparative evaluation of
+          four forecasting architectures across 12 product categories on a held-out test set, with explicit
+          statistical baselines. <span>2.75% MAPE</span> against a 6.8% baseline.
+        </p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">2.75%</div>
+          <div class="stat-label">MAPE — retail demand forecasting (vs 6.8% baseline)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Specialist AI agents deployed on AWS ECS Fargate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">&lt;1s</div>
+          <div class="stat-label">End-to-end response — AskMyDoc (FAISS retrieval + LLM generation)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">Projects</p>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-sub">Production deployments, open-source tooling, and applied ML research — spanning multi-agent systems, retrieval-augmented generation, and forecasting.</p>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-left">
+          <span class="project-badge">Commercial · NDA</span>
+          <div class="project-name">Avsar</div>
+          <div class="project-sub">Multi-Agent AI Platform</div>
+          <div class="project-divider"></div>
+          <div class="project-metric">✓ 3 agents on AWS ECS Fargate</div>
+        </div>
+        <div class="project-right">
+          <div class="project-desc">
+            Multi-agent AI platform built for hotel operations on AWS. Three specialist agents — Concierge,
+            Booking Assistant, and Complaint Triage — each with dedicated tool sets and LangChain orchestration,
+            sharing a Pinecone knowledge base built on a custom ingestion pipeline: document chunking,
+            text-embedding-3-small vectorisation, and semantic retrieval. Containerised with Docker,
+            deployed to ECS Fargate, with automated CI/CD via GitHub Actions.<br><br>
+            This engagement clarified what separates AI that demos cleanly from AI that holds up in production —
+            working through failure modes in retrieval, infrastructure constraints under real load, monitoring
+            requirements, and the discipline of writing pipelines that remain stable across diverse and
+            unpredictable user inputs.
+          </div>
+          <div class="project-tags">
+            <span class="tag">LangChain</span><span class="tag">OpenAI</span><span class="tag">Pinecone</span>
+            <span class="tag">FastAPI</span><span class="tag">Docker</span><span class="tag">AWS ECS</span>
+            <span class="tag">GitHub Actions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-left">
+          <a href="https://github.com/Krishna5301/AskMyDoc" target="_blank" class="project-link">GitHub ↗</a>
+          <div class="project-name">AskMyDoc</div>
+          <div class="project-sub">RAG Document Q&amp;A</div>
+          <div class="project-divider"></div>
+          <div class="project-metric">✓ Sub-1s standard · under 4s on 200-page files</div>
+        </div>
+        <div class="project-right">
+          <div class="project-desc">
+            AskMyDoc is a document question-answering system built around a specific failure mode in
+            retrieval-augmented generation: when a query is ambiguous, standard RAG retrieves plausible
+            but incorrect context and the LLM generates a confident wrong answer.
+            AskMyDoc introduces a Clarification Gate — an LLM-powered pre-retrieval layer that evaluates
+            query specificity before retrieval begins. If the query is too broad or ambiguous, the system
+            surfaces a targeted follow-up question rather than proceeding with unreliable retrieval.
+            When the query is sufficiently specific, it passes directly to FAISS vector search, followed
+            by LLM generation — end to end in under one second. Open source on GitHub.
+          </div>
+          <div class="project-tags">
+            <span class="tag">LangChain</span><span class="tag">OpenAI</span><span class="tag">FAISS</span>
+            <span class="tag">Streamlit</span><span class="tag">Python</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-left">
+          <span class="project-badge">MSc Capstone</span>
+          <div class="project-name">Retail Demand Forecasting</div>
+          <div class="project-sub">4 architectures · 12 categories</div>
+          <div class="project-divider"></div>
+          <div class="project-metric">✓ 2.75% MAPE vs 6.8% baseline</div>
+        </div>
+        <div class="project-right">
+          <div class="project-desc">
+            Comparative evaluation of four forecasting architectures — Prophet, ARIMA, XGBoost, and LSTM —
+            across 12 COICOP product categories on a held-out test set, with explicit statistical baselines.
+            2.75% MAPE overall — Prophet performed best in 10 of 12 categories. Best individual
+            performance in Recreation (0.19%) and Transport (0.23%).
+            Deployed as an interactive Streamlit application with configurable forecast horizons
+            and per-category model selection.
+          </div>
+          <div class="project-tags">
+            <span class="tag">Prophet</span><span class="tag">XGBoost</span><span class="tag">ARIMA</span>
+            <span class="tag">LSTM</span><span class="tag">Streamlit</span><span class="tag">Python</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="arch-section">
+      <div class="arch-header">
+        <span class="arch-title">Avsar — System Architecture</span>
+        <span class="arch-badge">Commercial · NDA · Diagram sanitised</span>
+      </div>
+      <div class="arch-body">
+        <div class="mermaid">
+%%{init: {'theme': 'default', 'themeVariables': {'background': '#faf8f5', 'primaryColor': '#e6dfd5', 'primaryTextColor': '#1c1917', 'primaryBorderColor': '#1e3a8a', 'lineColor': '#57534e', 'secondaryColor': '#f2eee9', 'tertiaryColor': '#f2eee9', 'edgeLabelBackground': '#faf8f5', 'fontFamily': 'Inter', 'fontSize': '14px'}}}%%
+graph LR
+    U([User]) --> F[FastAPI\nGateway]
+    F --> R{Agent\nRouter}
+    R -->|guest queries| CA[Concierge\nAgent]
+    R -->|reservations| BA[Booking\nAgent]
+    R -->|complaints| TA[Triage\nAgent]
+    CA --> RAG[(Pinecone\nVector DB)]
+    BA --> RAG
+    TA --> RAG
+    RAG --> LLM[OpenAI\nLLM]
+    LLM --> Out([Response])
+    subgraph AWS[AWS Infrastructure]
+      F
+      R
+      CA
+      BA
+      TA
+    end
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">Professional Experience</h2>
+    <p class="section-sub">Contract AI engineering followed by two years of enterprise software delivery.</p>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date">Dec 2025<br>— Jun 2026</div>
+        <div class="timeline-body">
+          <div class="timeline-role">AI Engineer (Contract)</div>
+          <div class="timeline-company">Avsar &nbsp;·&nbsp; Remote, UK</div>
+          <ul class="timeline-points">
+            <li>Designed and deployed a multi-agent AI platform on AWS ECS Fargate — three specialist agents (Concierge, Booking, Complaint Triage) with LangChain orchestration and dedicated tool sets per agent.</li>
+            <li>Built a shared RAG knowledge base using Pinecone and OpenAI embeddings, with a custom document chunking and ingestion pipeline serving all three agents from a single retrieval layer.</li>
+            <li>Delivered a FastAPI backend, Docker containerisation, and GitHub Actions CI/CD pipeline — automated build, test, and deployment to AWS ECR and ECS Fargate on every push.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Sep 2021<br>— Sep 2023</div>
+        <div class="timeline-body">
+          <div class="timeline-role">Application Development Associate</div>
+          <div class="timeline-company">Accenture &nbsp;·&nbsp; Hyderabad, India</div>
+          <ul class="timeline-points">
+            <li>Engineered Python automation scripts to streamline multi-environment deployment workflows, reducing manual release effort and improving delivery-cycle efficiency across production environments.</li>
+            <li>Built and maintained ASP.NET MVC web applications and PowerShell configuration-management workflows, improving system uptime by 20% during peak retail demand periods.</li>
+            <li>Analysed operational and retail datasets using SQL to identify incident patterns, supporting data-driven decisions and contributing to 100% SLA compliance — collaborating cross-functionally on root-cause analysis and production issue resolution.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section id="capabilities">
+  <div class="container">
+    <p class="section-label">Capabilities</p>
+    <h2 class="section-title">What I Bring to the Business</h2>
+    <p class="section-sub">Core areas of expertise, with examples from delivered work.</p>
+    <div class="capability-grid">
+
+      <div class="capability-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="cap-headline">Production AI Engineering</div>
+        <div class="cap-desc">
+          The Avsar engagement covered the full path from system design to live deployment on AWS -
+          multi-agent orchestration, shared RAG infrastructure, containerised services on ECS Fargate,
+          and an automated CI/CD pipeline. Production AI engineering means the complete stack,
+          not just the model layer.
+        </div>
+        <div class="cap-tools">LangChain · FastAPI · Docker · AWS ECS Fargate · ECR · GitHub Actions · S3</div>
+      </div>
+
+      <div class="capability-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <div class="cap-headline">Retrieval-Augmented Generation</div>
+        <div class="cap-desc">
+          Building effective RAG systems goes beyond connecting a vector database to an LLM.
+          The AskMyDoc project introduced a pre-retrieval Clarification Gate that resolves query ambiguity
+          before the retrieval step, preventing retrieval from proceeding on underspecified queries. The Avsar platform
+          uses a shared Pinecone knowledge base with custom chunking and text-embedding-3-small
+          semantic search serving three agents from one retrieval layer.
+        </div>
+        <div class="cap-tools">Pinecone · FAISS · OpenAI Embeddings · text-embedding-3-small · LangChain</div>
+      </div>
+
+      <div class="capability-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="cap-headline">ML and Forecasting</div>
+        <div class="cap-desc">
+          The MSc capstone was a structured comparative evaluation - four model architectures, 12 COICOP
+          product categories, held-out test set, explicit statistical baselines. The methodology follows
+          standard time-series validation practices; the 2.75% MAPE vs 6.8% baseline result is grounded
+          in that process, with every comparison documented against a proper held-out evaluation.
+        </div>
+        <div class="cap-tools">Prophet · XGBoost · ARIMA · LSTM · scikit-learn · pandas · NumPy · SQL</div>
+      </div>
+
+      <div class="capability-card">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="cap-headline">Enterprise Delivery Background</div>
+        <div class="cap-desc">
+          Two years at Accenture provided grounding in enterprise software delivery - SLA frameworks,
+          cross-functional teamwork, and production release cycles. That context shapes how AI systems
+          are approached: as components of larger engineering systems, with the disciplines of
+          testing, documentation, and stakeholder communication that entails.
+        </div>
+        <div class="cap-tools">Python · SQL · AWS Cloud Practitioner · Azure AZ-900 · Agile delivery</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <p class="section-label">Education</p>
+    <h2 class="section-title">Education</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-degree">MSc Data Science</div>
+        <div class="edu-school">University of the West of England, Bristol</div>
+        <div class="edu-dates">Sep 2024 — Sep 2025</div>
+        <div class="edu-detail">
+          The MSc changed how data problems are approached — particularly around evaluation honesty.
+          Working through statistical learning, Bayesian reasoning, and time-series modelling built
+          a more disciplined instinct for when a model is actually working versus when it just looks good
+          on training data. The programme pushed hard on held-out evaluation, explicit baselines, and
+          reproducibility — habits that carry directly into production AI work.<br><br>
+          The capstone was where that rigour was tested in practice. Four forecasting architectures,
+          12 product categories, results that had to be defensible against a proper statistical baseline.
+          Arriving at 2.75% MAPE against a 6.8% baseline was satisfying not because of the number,
+          but because the methodology behind it was sound.
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">BTech Electronics &amp; Communications Engineering</div>
+        <div class="edu-school">SNIST, Hyderabad, India</div>
+        <div class="edu-dates">Aug 2017 — Aug 2021</div>
+        <div class="edu-detail">
+          Four-year undergraduate degree in Electronics and Communications Engineering.
+          Provided foundations in mathematics, signal processing, and systems thinking
+          that underpin the machine learning and engineering work that followed.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <p class="section-label" style="text-align:center;">Contact</p>
+      <h2 class="contact-headline">Let's Work Together</h2>
+      <p class="contact-sub">
+        Available for AI Engineer and GenAI roles in the UK. Immediately available,
+        with full right to work until December 2027. Happy to discuss opportunities or
+        answer questions about any of the work above.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:krishnachaitanyagoudmakthala@gmail.com" class="contact-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+        </a>
+        <a href="https://linkedin.com/in/krishnachaitanyagoudmakthala" target="_blank" class="contact-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/Krishna5301" target="_blank" class="contact-link">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.17c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.72.08-.72 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.78 1.3 3.46.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.138 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Krishna Chaitanya Makthala &nbsp;·&nbsp; Bristol, UK &nbsp;·&nbsp; krishnachaitanyagoudmakthala@gmail.com</p>
+</footer>
+
+<script>mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', flowchart: { curve: 'basis', padding: 24 } });</script>
+</body>
+</html>
